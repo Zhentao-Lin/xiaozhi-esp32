@@ -2,7 +2,7 @@
     "target": "esp32s3",
     "builds": [
         {
-            "name": "xingzhi-cube-0.85tft-ml307",
+            "name": "freenove-media-kit",
             "sdkconfig_append": []
         }
     ]
