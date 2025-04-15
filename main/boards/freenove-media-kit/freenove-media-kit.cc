@@ -20,8 +20,9 @@ LV_FONT_DECLARE(font_puhui_16_4);
 LV_FONT_DECLARE(font_awesome_16_4);
 
 #define LCD_SPI_HOST SPI3_HOST
+#if PCB_VERSION == 18
 #define LCD_RST_PIN GPIO_NUM_20
-
+#endif
 button_adc_config_t adc_btn_config0 = {
     .unit_id = ADC_UNIT_2,
     .adc_channel = ADC_CHANNEL_8,
@@ -68,6 +69,7 @@ class FreenoveMediaKit : public WifiBoard {
   Button adcButton3;
   Button adcButton4;
 
+#if PCB_VERSION == 18
   void resetLcd() {
     // 配置引脚为输出模式，并设置默认电平为低
     gpio_config_t io_conf = {};
@@ -88,6 +90,7 @@ class FreenoveMediaKit : public WifiBoard {
     // io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
     gpio_config(&io_conf);
   }
+#endif
 
   void InitializeSpi() {
     spi_bus_config_t buscfg = {};
@@ -125,7 +128,9 @@ class FreenoveMediaKit : public WifiBoard {
     ESP_ERROR_CHECK(esp_lcd_new_panel_st7789(panel_io, &panel_config, &panel));
     ESP_LOGI(TAG, "Install LCD driver ST7789");
     esp_lcd_panel_reset(panel);
+#if PCB_VERSION == 18
     resetLcd();
+#endif
     esp_lcd_panel_init(panel);
     esp_lcd_panel_invert_color(panel, DISPLAY_INVERT_COLOR);
     esp_lcd_panel_swap_xy(panel, DISPLAY_SWAP_XY);
